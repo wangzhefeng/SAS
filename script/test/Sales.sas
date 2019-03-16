@@ -2,10 +2,10 @@ LIBNAME saslib base 'E:\project\tools\SAS\data';
 
 DATA saslib.sales;
 	infile datalines dsd missover;
-	input Emp_ID $ Dept $ Sales Date;
+	input Emp_ID Dept Sales Date;
 	format Sales COMMA10. Date yymmdd10.;
 	informat Sales dollar10. Date date9.;
-	label Emp_ID = "Ô±¹¤ID" Dept = "²¿ÃÅ" Sales = "ÏúÊÛÊı¾İ" Date = "ÏúÊÛÊ±¼ä";
+	label Emp_ID = "å‘˜å·¥ID" Dept = "éƒ¨é—¨" Sales = "é”€å”®æ•°æ®" Date = "é”€å”®æ—¶é—´";
 datalines;
 ET001, TSG, $10000, 01JAN2012
 ED002,    , $12000, 01FEB2012
@@ -24,4 +24,3 @@ RUN;
 
 PROC PRINT data = saslib.sales noobs label;
 RUN;
-

@@ -231,7 +231,7 @@ filename exfiles "E:\project\tools\SAS\data";
 DATA sasuser.sales;
 	length Name $20;
 	infile exfiles(sales) dsd;
-	input Emp_ID $ Name $ Dept $ Sales:COMMA10.;
+	input Emp_ID Name Dept $ Sales:COMMA10.;
 	format Sales DOLLAR10.;
 RUN;
 DATA work.sales_sum;
@@ -308,7 +308,7 @@ DATA sasuser.shop;
 	length City $20;
 	length State $2;
 	infile exfiles(shop) dsd;
-	input Shop $ Telephone $ Street $ City $ State $ Zip:COMMA10.;
+	input Shop Telephone Street City State $ Zip:COMMA10.;
 RUN;
 
 
@@ -345,3 +345,47 @@ RUN;
 ods pdf close;
 
 
+
+/* 
+ * 选取部分变量
+ *     在使用DATA步基于已经存在的数据集生成新的数据时，可以指定在新数据集中不需要包含的变量而读取其他变量，或者指定仅需要在新数据集中包含的变量；
+*/
+
+
+/*************************************************************/
+/* 1.使用数据集选项 (KEEP=) 选项 和 (DROP=) 选项
+/*************************************************************/
+
+/* (KEEP=) 选项 */
+DATA work.shoes_part1;
+	set sashelp.shoes (keep = Product Stores Sales);
+RUN;
+PROC PRINT data = work.shoes_part1 (obs = 10) noobs;
+RUN;
+
+
+/*( DROP=) 选项*/
+DATA work.shoes_part2;
+	set sashelp.shoes (drop = Region Subsidiary Inventory Returns);
+RUN;
+PROC PRINT data = work.shoes_part2 (obs = 10) noobs;
+RUN;
+
+/*************************************************************/
+/* 2.使用KEEP和DROP语句
+/*************************************************************/
+/* KEEP语句*/
+DATA work.shoes_part3;
+	set sashelp.shoes;
+	keep Product Stores Sales;
+RUN;
+PROC PRINT data = work.shoes_part3 (obs = 10) noobs;
+RUN;
+
+/* DROP语句*/
+DATA work.shoes_part4;
+	set sashelp.shoes;
+	drop Region Subsidiary Inventory Returns; 
+RUN;
+PROC PRINT data = work.shoes_part4 (obs = 10) noobs;
+RUN;
